@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-surface text-gray-100 antialiased;
+    font-family: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar        { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track  { @apply bg-surface; }
+  ::-webkit-scrollbar-thumb  { @apply rounded-full bg-gray-700; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-gray-500; }
+}
+
+@layer components {
+  /* Reusable card */
+  .card {
+    @apply rounded-xl border border-white/[0.08] bg-surface-card;
+  }
+
+  /* Primary gradient button */
+  .btn-primary {
+    @apply rounded-lg bg-gradient-to-r from-teal-400 to-cyan-400
+           px-5 py-2.5 text-sm font-bold text-gray-950
+           transition hover:opacity-90 active:scale-[0.98]
+           disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  /* Ghost button */
+  .btn-ghost {
+    @apply rounded-lg px-4 py-2 text-sm text-gray-400
+           transition hover:bg-white/5 hover:text-gray-100
+           disabled:cursor-not-allowed disabled:opacity-40;
+  }
+
+  /* Text input */
+  .input {
+    @apply w-full rounded-lg border border-white/[0.08] bg-surface-input
+           px-4 py-3 text-sm text-gray-100 placeholder-gray-600
+           outline-none transition
+           focus:border-teal-500 focus:ring-1 focus:ring-teal-500/40;
+  }
+}

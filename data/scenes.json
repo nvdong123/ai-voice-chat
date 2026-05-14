@@ -1,0 +1,107 @@
+[
+  {
+    "id": "mui-ke-ga",
+    "panoNodeId": "node412",
+    "name": "Mũi Kê Gà",
+    "desc": "Sở hữu ngọn hải đăng cổ nhất Đông Nam Á, Mũi Kê Gà mang vẻ đẹp hoang sơ với những bãi đá nhấp nhô vươn mình ra biển khơi.",
+    "thumbClass": "dest-thumb-1"
+  },
+  {
+    "id": "nova-world-phan-thiet",
+    "panoNodeId": "node414",
+    "name": "Nova World Phan Thiết",
+    "desc": "Siêu đô thị biển mang tầm cỡ quốc tế tại Bình Thuận, hội tụ hàng trăm tiện ích giải trí, sức khỏe và nghỉ dưỡng đẳng cấp.",
+    "thumbClass": "dest-thumb-2"
+  },
+  {
+    "id": "movenpick-phan-thiet",
+    "panoNodeId": "node418",
+    "name": "Mövenpick Phan Thiết",
+    "desc": "Khu nghỉ dưỡng 5 sao cao cấp với thiết kế mang đậm phong cách kiến trúc Port Royale của Hà Lan, mang đến trải nghiệm lưu trú vô cùng sang trọng.",
+    "thumbClass": "dest-thumb-3"
+  },
+  {
+    "id": "bai-bien-phan-thiet",
+    "panoNodeId": "node482",
+    "name": "Bãi Biển Phan Thiết",
+    "desc": "Điểm đến lý tưởng với bờ cát trắng mịn, nước biển trong xanh và hàng dừa thơ mộng, thu hút đông đảo du khách yêu thích du lịch biển.",
+    "thumbClass": "dest-thumb-4"
+  },
+  {
+    "id": "bai-bien-phu-hai",
+    "panoNodeId": "node436",
+    "name": "Bãi Biển Phú Hài",
+    "desc": "Khu vực bãi biển êm đềm, sạch sẽ, là nơi quy tụ nhiều resort và khu nghỉ dưỡng sinh thái cao cấp hàng đầu của Phan Thiết.",
+    "thumbClass": "dest-thumb-5"
+  },
+  {
+    "id": "sea-links-city",
+    "panoNodeId": "node470",
+    "name": "Sea Links City",
+    "desc": "Khu phức hợp nghỉ dưỡng đẳng cấp 5 sao tại Mũi Né, nổi bật với sân golf 18 lỗ thử thách, lâu đài rượu vang RD độc đáo và hệ thống biệt thự sang trọng hướng biển.",
+    "thumbClass": "dest-thumb-1"
+  },
+  {
+    "id": "bai-bien-ham-tien",
+    "panoNodeId": "node447",
+    "name": "Bãi Biển Hàm Tiến",
+    "desc": "Được mệnh danh là thủ phủ resort, Hàm Tiến sầm uất với nhiều dịch vụ lưu trú, ăn uống ven bờ biển xanh ôm trọn những rặng dừa.",
+    "thumbClass": "dest-thumb-2"
+  },
+  {
+    "id": "bien-bai-rang",
+    "panoNodeId": "node397",
+    "name": "Biển Bãi Rạng",
+    "desc": "Bãi tắm tuyệt đẹp nhất nhì Mũi Né, ghi dấu ấn bởi bãi cát vàng óng ả, nước biển vỗ về và những rặng dừa xanh soi bóng.",
+    "thumbClass": "dest-thumb-3"
+  },
+  {
+    "id": "bai-bien-mui-ne",
+    "panoNodeId": "node433",
+    "name": "Bãi Biển Mũi Né",
+    "desc": "Thiên đường du lịch biển nổi tiếng toàn cầu, hấp dẫn du khách bởi cảnh quan quyến rũ, đồi cát bay và các hoạt động thể thao lướt ván diều.",
+    "thumbClass": "dest-thumb-4"
+  },
+  {
+    "id": "toan-canh-da-lat",
+    "panoNodeId": "node483",
+    "name": "Toàn cảnh Đà Lạt",
+    "desc": "Góc nhìn toàn cảnh tuyệt đẹp bao quát thành phố sương mù, chiêm ngưỡng trọn vẹn vẻ đẹp của những đồi thông xanh ngát và các công trình kiến trúc ẩn hiện.",
+    "thumbClass": "dest-thumb-5"
+  },
+  {
+    "id": "trung-tam-da-lat",
+    "panoNodeId": "node516",
+    "name": "Trung Tâm Đà Lạt",
+    "desc": "Khu vực trung tâm sầm uất của thành phố sương mù, lưu giữ nhiều công trình kiến trúc cổ điển và là tâm điểm văn hóa, du lịch.",
+    "thumbClass": "dest-thumb-1"
+  },
+  {
+    "id": "quang-truong-lam-vien",
+    "panoNodeId": "node502",
+    "name": "Quảng Trường Lâm Viên",
+    "desc": "Điểm nhấn kiến trúc của Đà Lạt với nụ hoa Atisô và khối hoa Dã Quỳ bằng kính khổng lồ, là không gian vui chơi, check-in lý tưởng.",
+    "thumbClass": "dest-thumb-2"
+  },
+  {
+    "id": "ho-xuan-huong",
+    "panoNodeId": "node488",
+    "name": "Hồ Xuân Hương",
+    "desc": "Viên ngọc xanh thơ mộng nằm ngay giữa lòng Đà Lạt, được bao bọc bởi những rặng thông và thảm cỏ xanh mướt, mang lại vẻ đẹp bình yên.",
+    "thumbClass": "dest-thumb-3"
+  },
+  {
+    "id": "cho-da-lat",
+    "panoNodeId": "node503",
+    "name": "Chợ Đà Lạt",
+    "desc": "Trái tim giao thương của thành phố, nơi du khách thỏa sức mua sắm đặc sản và khám phá thiên đường ẩm thực đường phố sầm uất về đêm.",
+    "thumbClass": "dest-thumb-4"
+  },
+  {
+    "id": "trung-tam-bao-loc",
+    "panoNodeId": "node511",
+    "name": "Trung Tâm Bảo Lộc",
+    "desc": "Thủ phủ của ngành trà và tơ lụa Lâm Đồng, mang khí hậu mát mẻ quanh năm cùng vẻ đẹp bình yên, thơ mộng của miền cao nguyên.",
+    "thumbClass": "dest-thumb-5"
+  }
+]

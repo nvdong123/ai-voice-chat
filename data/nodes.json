@@ -1,0 +1,122 @@
+[
+  {
+    "nodeId": "node412",
+    "lat": 10.6974,
+    "lng": 107.9942,
+    "defaultHeading": 0,
+    "title": "Mui Ke Ga",
+    "panoramaUrl": ""
+  },
+  {
+    "nodeId": "node414",
+    "lat": 10.8711,
+    "lng": 108.0163,
+    "defaultHeading": 45,
+    "title": "Nova World Phan Thiet",
+    "panoramaUrl": ""
+  },
+  {
+    "nodeId": "node418",
+    "lat": 10.8752,
+    "lng": 108.021,
+    "defaultHeading": 90,
+    "title": "Movenpick Phan Thiet",
+    "panoramaUrl": "https://web-movenpickphanthiet.vt360.vn/"
+  },
+  {
+    "nodeId": "node482",
+    "lat": 10.9328,
+    "lng": 108.1065,
+    "defaultHeading": 0,
+    "title": "Bai Bien Phan Thiet",
+    "panoramaUrl": ""
+  },
+  {
+    "nodeId": "node436",
+    "lat": 10.9416,
+    "lng": 108.136,
+    "defaultHeading": 180,
+    "title": "Bai Bien Phu Hai",
+    "panoramaUrl": ""
+  },
+  {
+    "nodeId": "node470",
+    "lat": 10.943,
+    "lng": 108.1382,
+    "defaultHeading": 270,
+    "title": "Sea Links City",
+    "panoramaUrl": "https://web-sealinkcity.vt360.vn/"
+  },
+  {
+    "nodeId": "node447",
+    "lat": 10.9538,
+    "lng": 108.1966,
+    "defaultHeading": 0,
+    "title": "Bai Bien Ham Tien",
+    "panoramaUrl": ""
+  },
+  {
+    "nodeId": "node397",
+    "lat": 10.9575,
+    "lng": 108.2045,
+    "defaultHeading": 10,
+    "title": "Bien Bai Rang",
+    "panoramaUrl": ""
+  },
+  {
+    "nodeId": "node433",
+    "lat": 10.9333,
+    "lng": 108.2833,
+    "defaultHeading": 20,
+    "title": "Bai Bien Mui Ne",
+    "panoramaUrl": ""
+  },
+  {
+    "nodeId": "node483",
+    "lat": 11.9404,
+    "lng": 108.4583,
+    "defaultHeading": 0,
+    "title": "Toan canh Da Lat",
+    "panoramaUrl": ""
+  },
+  {
+    "nodeId": "node516",
+    "lat": 11.9441,
+    "lng": 108.4384,
+    "defaultHeading": 45,
+    "title": "Trung Tam Da Lat",
+    "panoramaUrl": ""
+  },
+  {
+    "nodeId": "node502",
+    "lat": 11.9388,
+    "lng": 108.4449,
+    "defaultHeading": 90,
+    "title": "Quang Truong Lam Vien",
+    "panoramaUrl": ""
+  },
+  {
+    "nodeId": "node488",
+    "lat": 11.9438,
+    "lng": 108.4485,
+    "defaultHeading": 180,
+    "title": "Ho Xuan Huong",
+    "panoramaUrl": ""
+  },
+  {
+    "nodeId": "node503",
+    "lat": 11.9431,
+    "lng": 108.4365,
+    "defaultHeading": 270,
+    "title": "Cho Da Lat",
+    "panoramaUrl": ""
+  },
+  {
+    "nodeId": "node511",
+    "lat": 11.5458,
+    "lng": 107.808,
+    "defaultHeading": 0,
+    "title": "Trung Tam Bao Loc",
+    "panoramaUrl": ""
+  }
+]

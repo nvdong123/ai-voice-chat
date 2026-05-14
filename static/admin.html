@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Lâm Đồng AI</title>
+
+  <!-- CodeMirror 5 CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.17/codemirror.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.17/theme/dracula.min.css" />
+
+  <!-- Admin styles -->
+  <link rel="stylesheet" href="/static/admin.css" />
+
+  <!-- Tailwind CSS CDN (JIT — supports arbitrary values & opacity modifiers) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- CodeMirror 5 JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.17/codemirror.min.js"></script>
+
+  <!-- Lucide icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- App logic — must load before Alpine -->
+  <script src="/static/admin.js"></script>
+
+  <!-- Alpine.js — deferred so it initialises after DOM + admin.js are ready -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+</head>
+
+<body
+  x-data="adminApp()"
+  x-init="init()"
+  class="bg-slate-900 text-slate-100 min-h-screen flex overflow-hidden"
+>
+
+  <!-- ── Login overlay ──────────────────────────────────────────────────── -->
+  <div
+    x-show="!loggedIn"
+    x-cloak
+    class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/90 backdrop-blur-sm"
+  >
+    <div class="w-full max-w-sm bg-slate-800 border border-slate-700 rounded-2xl p-8 shadow-2xl">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-10 h-10 rounded-xl bg-emerald-700 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">LĐ</div>
+        <div>
+          <p class="font-bold text-white leading-tight">Lâm Đồng AI</p>
+          <p class="text-xs text-slate-400">Admin Panel</p>
+        </div>
+      </div>
+
+      <label class="block text-sm text-slate-300 mb-1">Mật khẩu</label>
+      <input
+        type="password"
+        x-model="loginPassword"
+        @keydown.enter="doLogin()"
+        placeholder="Nhập mật khẩu..."
+        class="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 mb-3"
+        autofocus
+      />
+
+      <p x-show="loginError" x-text="loginError" class="text-red-400 text-xs mb-3"></p>
+
+      <button
+        @click="doLogin()"
+        :disabled="loginLoading"
+        class="w-full bg-emerald-700 hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-lg py-2.5 text-sm transition-colors"
+      >
+        <span x-text="loginLoading ? 'Đang đăng nhập...' : 'Đăng nhập'"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Sidebar ──────────────────────────────────────────────────────────── -->
+  <aside class="w-64 fixed inset-y-0 left-0 flex flex-col bg-slate-800 border-r border-slate-700 z-20">
+
+    <!-- Brand -->
+    <div class="flex items-center gap-3 px-5 py-4 border-b border-slate-700">
+      <div class="w-9 h-9 rounded-xl bg-emerald-700 flex items-center justify-center text-white font-bold text-xs flex-shrink-0">LĐ</div>
+      <div class="min-w-0">
+        <p class="font-bold text-sm text-white leading-tight truncate">Lâm Đồng AI</p>
+        <p class="text-xs text-slate-400">Admin Panel</p>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <nav class="flex-1 p-2 space-y-0.5">
+
+      <button
+        @click="activeTab = 'prompt'"
+        :class="activeTab === 'prompt'
+          ? 'bg-emerald-700/20 text-emerald-400'
+          : 'text-slate-400 hover:bg-slate-700/50 hover:text-slate-100'"
+        class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors text-left"
+      >
+        <i data-lucide="file-text" class="w-4 h-4 flex-shrink-0"></i>
+        System Prompt
+      </button>
+
+      <button
+        @click="activeTab = 'config'"
+        :class="activeTab === 'config'
+          ? 'bg-emerald-700/20 text-emerald-400'
+          : 'text-slate-400 hover:bg-slate-700/50 hover:text-slate-100'"
+        class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors text-left"
+      >
+        <i data-lucide="settings" class="w-4 h-4 flex-shrink-0"></i>
+        Cấu hình
+      </button>
+
+      <button
+        @click="activeTab = 'guide'"
+        :class="activeTab === 'guide'
+          ? 'bg-emerald-700/20 text-emerald-400'
+          : 'text-slate-400 hover:bg-slate-700/50 hover:text-slate-100'"
+        class="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm transition-colors text-left"
+      >
+        <i data-lucide="book-open" class="w-4 h-4 flex-shrink-0"></i>
+        Hướng dẫn
+      </button>
+
+    </nav>
+
+    <!-- Server status -->
+    <div class="flex items-center gap-2 px-5 py-4 border-t border-slate-700">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+      <span class="text-xs text-slate-400">Online</span>
+    </div>
+
+  </aside>
+
+  <!-- ── Main content ──────────────────────────────────────────────────────── -->
+  <main class="pl-64 flex-1 overflow-y-auto min-h-screen">
+    <div class="max-w-3xl mx-auto px-8 py-8">
+
+      <!-- ── Tab: System Prompt ──────────────────────────────────────────── -->
+      <div x-show="activeTab === 'prompt'">
+
+        <div class="mb-6">
+          <h1 class="text-2xl font-bold tracking-tight text-white">System Prompt Editor</h1>
+          <p class="mt-1 text-sm text-slate-400">Thay đổi có hiệu lực ngay, không cần restart</p>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="flex items-center justify-between mb-3">
+          <span
+            class="char-badge"
+            :class="charCountClass()"
+            x-text="charCount + ' ký tự'"
+          ></span>
+          <div class="flex items-center gap-2">
+            <button
+              @click="resetPrompt()"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm border border-slate-600 text-slate-300 rounded-lg hover:bg-slate-700 transition-colors"
+            >
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+              Reset
+            </button>
+            <button
+              @click="savePrompt()"
+              :disabled="saving"
+              class="inline-flex items-center gap-1.5 px-4 py-1.5 text-sm bg-emerald-700 text-white rounded-lg hover:bg-emerald-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <i data-lucide="save" class="w-3.5 h-3.5"></i>
+              <span x-text="saving ? 'Đang lưu...' : 'Lưu'"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- CodeMirror editor -->
+        <div class="cm-wrapper rounded-xl overflow-hidden border border-slate-700">
+          <div id="editor-container"></div>
+        </div>
+        <p class="mt-2 text-xs text-slate-500">Ctrl+S / Cmd+S để lưu nhanh</p>
+
+      </div>
+
+      <!-- ── Tab: Cấu hình ───────────────────────────────────────────────── -->
+      <div x-show="activeTab === 'config'">
+
+        <div class="mb-6">
+          <h1 class="text-2xl font-bold tracking-tight text-white">Cấu hình</h1>
+          <p class="mt-1 text-sm text-slate-400">
+            Để thay đổi, chỉnh trong file
+            <code class="px-1 py-0.5 bg-slate-700 rounded text-xs font-mono">.env</code>
+            rồi restart server
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+          <!-- Model -->
+          <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
+            <p class="text-xs uppercase tracking-widest text-slate-400 mb-2">Model</p>
+            <p class="text-sm font-bold text-white font-mono break-all" x-text="config.model || '—'"></p>
+          </div>
+
+          <!-- Voice -->
+          <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
+            <div class="flex items-center gap-1.5 mb-2">
+              <i data-lucide="volume-2" class="w-3.5 h-3.5 text-slate-400"></i>
+              <p class="text-xs uppercase tracking-widest text-slate-400">Voice</p>
+            </div>
+            <p class="text-xl font-bold text-white" x-text="config.voice || '—'"></p>
+          </div>
+
+          <!-- Platform -->
+          <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
+            <p class="text-xs uppercase tracking-widest text-slate-400 mb-2">Platform</p>
+            <span
+              :class="config.platform === 'Vertex AI'
+                ? 'bg-blue-500/15 text-blue-400'
+                : 'bg-emerald-500/15 text-emerald-400'"
+              class="inline-block px-2.5 py-1 rounded-md text-sm font-semibold"
+              x-text="config.platform || '—'"
+            ></span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ── Tab: Hướng dẫn ─────────────────────────────────────────────── -->
+      <div x-show="activeTab === 'guide'">
+
+        <div class="mb-6">
+          <h1 class="text-2xl font-bold tracking-tight text-white">Hướng dẫn</h1>
+          <p class="mt-1 text-sm text-slate-400">Tham khảo khi viết system prompt cho Lâm Đồng AI</p>
+        </div>
+
+        <div class="space-y-5">
+
+          <!-- Cách viết prompt hiệu quả -->
+          <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
+            <h2 class="text-xs font-semibold text-emerald-400 uppercase tracking-widest mb-3">Cách viết prompt hiệu quả</h2>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li class="flex gap-2">
+                <span class="text-emerald-500 flex-shrink-0">•</span>
+                Đặt vai trò rõ ràng ở đầu ("Bạn là ... tên ...")
+              </li>
+              <li class="flex gap-2">
+                <span class="text-emerald-500 flex-shrink-0">•</span>
+                Liệt kê nhiệm vụ dạng gạch đầu dòng, ngắn gọn
+              </li>
+              <li class="flex gap-2">
+                <span class="text-emerald-500 flex-shrink-0">•</span>
+                Luôn chỉ định ngôn ngữ mặc định (tiếng Việt)
+              </li>
+              <li class="flex gap-2">
+                <span class="text-emerald-500 flex-shrink-0">•</span>
+                Hướng dẫn khi nào gọi
+                <code class="px-1 bg-slate-700 rounded font-mono text-xs self-start">navigate_vr_scene</code>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Giới hạn ký tự -->
+          <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
+            <h2 class="text-xs font-semibold text-emerald-400 uppercase tracking-widest mb-3">Giới hạn ký tự khuyến nghị</h2>
+            <div class="grid grid-cols-3 gap-3 text-center text-sm">
+              <div class="bg-slate-700/50 rounded-lg p-3">
+                <p class="text-emerald-400 font-bold text-lg">&le; 1500</p>
+                <p class="text-slate-400 text-xs mt-0.5">Tối ưu</p>
+              </div>
+              <div class="bg-slate-700/50 rounded-lg p-3">
+                <p class="text-yellow-400 font-bold text-lg">1500–2000</p>
+                <p class="text-slate-400 text-xs mt-0.5">Cảnh báo</p>
+              </div>
+              <div class="bg-slate-700/50 rounded-lg p-3">
+                <p class="text-red-400 font-bold text-lg">&gt; 2000</p>
+                <p class="text-slate-400 text-xs mt-0.5">Quá dài</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scene IDs -->
+          <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
+            <h2 class="text-xs font-semibold text-emerald-400 uppercase tracking-widest mb-3">Danh sách scene_id hợp lệ</h2>
+            <template x-if="(config.scene_ids || []).length > 0">
+              <div class="flex flex-wrap gap-2">
+                <template x-for="id in (config.scene_ids || [])" :key="id">
+                  <code
+                    class="px-2.5 py-1 bg-slate-700 text-emerald-300 rounded-md text-xs font-mono"
+                    x-text="id"
+                  ></code>
+                </template>
+              </div>
+            </template>
+            <template x-if="(config.scene_ids || []).length === 0">
+              <p class="text-slate-500 text-sm italic">Chưa có scene_id — kiểm tra SCENE_MAP_JSON trong .env</p>
+            </template>
+          </div>
+
+          <!-- Ví dụ trigger navigate -->
+          <div class="bg-slate-800 border border-slate-700 rounded-xl p-5">
+            <h2 class="text-xs font-semibold text-emerald-400 uppercase tracking-widest mb-3">Ví dụ câu lệnh trigger navigate</h2>
+            <div class="space-y-2">
+              <div class="bg-slate-700/50 rounded-lg px-3 py-2 font-mono text-xs text-slate-200">"Cho tôi xem hồ Tuyền Lâm"</div>
+              <div class="bg-slate-700/50 rounded-lg px-3 py-2 font-mono text-xs text-slate-200">"Đưa tôi đến Đà Lạt"</div>
+              <div class="bg-slate-700/50 rounded-lg px-3 py-2 font-mono text-xs text-slate-200">"Tôi muốn xem thác Pongour"</div>
+            </div>
+            <p class="mt-3 text-xs text-slate-400">
+              Khi nhận câu trên, AI gọi
+              <code class="px-1 bg-slate-700 rounded font-mono">navigate_vr_scene(scene_id=...)</code>
+              rồi xác nhận bằng lời.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ── Toast notification (bottom-right) ─────────────────────────────────── -->
+  <div
+    x-show="toast.show"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0 translate-y-4"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100 translate-y-0"
+    x-transition:leave-end="opacity-0 translate-y-4"
+    :class="toast.type === 'ok'
+      ? 'bg-emerald-900/90 border-emerald-700 text-emerald-200'
+      : 'bg-red-900/90 border-red-700 text-red-200'"
+    class="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-xl border backdrop-blur-sm shadow-xl text-sm font-medium max-w-xs"
+  >
+    <i x-show="toast.type === 'ok'"  data-lucide="check-circle" class="w-4 h-4 flex-shrink-0"></i>
+    <i x-show="toast.type !== 'ok'" data-lucide="alert-circle" class="w-4 h-4 flex-shrink-0"></i>
+    <span x-text="toast.message"></span>
+  </div>
+
+</body>
+</html>

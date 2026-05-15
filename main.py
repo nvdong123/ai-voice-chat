@@ -142,7 +142,7 @@ app = FastAPI(title="Lâm Đồng AI Chatbot Backend")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://stagingdulichlamdong.vt360.vn", "https://www.stagingdulichlamdong.vt360.vn"],
+    allow_origins=["https://stagingdulichlamdong.vt360.vn", "https://www.stagingdulichlamdong.vt360.vn", "https://dulichlamdong.vt360.vn", "https://www.dulichlamdong.vt360.vn"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

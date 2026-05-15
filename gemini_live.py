@@ -10,9 +10,20 @@ Changes from original:
 import asyncio
 import inspect
 import logging
+import re
 import traceback
 
 from google import genai
+
+# Strip <function_call>...</function_call> (and malformed variants) from output
+# transcription text so they are never shown in the chat UI.
+_FUNC_CALL_RE = re.compile(
+    r'<function_call>.*?</function_call>|<function_call>[\w._-]+\{[^}]*\}|<function_call>',
+    re.DOTALL | re.IGNORECASE,
+)
+
+def _clean_transcription(text: str) -> str:
+    return _FUNC_CALL_RE.sub('', text).strip()
 from google.genai import types
 
 logger = logging.getLogger(__name__)
@@ -166,12 +177,16 @@ class GeminiLive:
                                         server_content.output_transcription
                                         and server_content.output_transcription.text
                                     ):
-                                        await event_queue.put(
-                                            {
-                                                "type": "gemini",
-                                                "text": server_content.output_transcription.text,
-                                            }
+                                        clean = _clean_transcription(
+                                            server_content.output_transcription.text
                                         )
+                                        if clean:
+                                            await event_queue.put(
+                                                {
+                                                    "type": "gemini",
+                                                    "text": clean,
+                                                }
+                                            )
 
                                     if server_content.turn_complete:
                                         await event_queue.put({"type": "turn_complete"})
